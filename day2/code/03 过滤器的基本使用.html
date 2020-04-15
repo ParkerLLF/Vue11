@@ -9,22 +9,35 @@
   <script src="./lib/vue-2.4.0.js"></script>
 </head>
 
+
 <body>
   <div id="app">
-    <p>{{ msg }}</p>
+    <!-- <p>{{ msg | msgFormat('疯狂+1', '123') | test }}</p> -->
+    <p>{{ msg | msgFormat('苹果+1 ','123') | test  }}</p>
   </div>
 
   <script>
     //定义一个 Vue 全局的过滤器，名字叫做 msgFormat
+    Vue.filter('msgFormat', function (msg, arg, arg2) {
+      //字符串的replace方法，第一个参数，除了可写一个 字符串 之外，还可以定义一个正则表达式
+      // return msg.replace('葡萄', '苹果')
+      // return msg.replace(/葡萄/g, '苹果')
+      return msg.replace(/葡萄/g, arg + arg2)
+    })
 
-    //
+    //过滤器可以多次调用
+    Vue.filter('test', function (msg) {
+      return msg + " ====这是二次调用过滤器的句子"
+    })
+
+    // 创建 Vue 实例，得到 ViewModel
     var vm = new Vue({
       el: '#app',
       data: {
         msg: '吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮',
       },
       methods: {}
-    })
+    });
   </script>
 </body>
 
